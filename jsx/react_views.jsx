@@ -4,10 +4,7 @@ $(function() {
 
     render: function() {
       return (
-       <input type ="text" 
-          value = {this.props.value} 
-          onChange ={this.props.onChange} 
-          placeholder="Keyword" />
+       <input type ="text" value = {this.props.value} onChange ={this.props.onChange} placeholder="Keyword" />
       );
     },
 
@@ -15,23 +12,38 @@ $(function() {
 
   var SearchBox = React.createClass({
 
+    getInitialState: function() {
+      return {keywordValue: ""};
+    },
+
+    onSubmit: function(e) {
+      e.preventDefault();
+      this.props.onKeywordValue(this.state.keywordValue)
+    },
+
+    onChange: function(e) {
+      this.setState({keywordValue: e.target.value});
+    },
+
     render: function() {
       return(
-        <form className="search-box">
-          <SearchBar value ={this.props.keyword} onChange={this.props.onChange}/>
-          <input type ="submit" />  //props use state. get initial, onchange call function, reset the state,
-          //on submit to form, call search function
+        <form className="search-box" onSubmit={this.onSubmit}>
+          <SearchBar value ={this.state.keywordValue} onChange={this.onChange}/>
+          <input type ="submit" />  
         </form>
       );
     }
 
   });
-  var onClick = function(e){
-    e.preventDefault();
-    console.log("Search:", e.target.value);
-    search.setProps({keyword: e.target.value})
+
+  var setKey = function(keywordValue){
+    console.log("Search:", keywordValue);
   }
 
-  var search = React.render(<SearchBox  onChange={onClick} />, document.body);
+  React.render(<SearchBox onKeywordValue={setKey}/>, document.body);
 });
-
+// instead of props use state, 
+// get initialState, 
+// onchange call function
+// reset the state,
+// on submit to form, call search function
