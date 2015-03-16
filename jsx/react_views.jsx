@@ -10,7 +10,7 @@ $(function() {
           placeholder="Keyword" />
       );
     },
-    
+
   });
 
   var SearchBox = React.createClass({
@@ -18,18 +18,20 @@ $(function() {
     render: function() {
       return(
         <form className="search-box">
-          <SearchBar value ={this.props.keyword} />
-          <input type ="submit" onChange={this.props.onChange}/> 
+          <SearchBar value ={this.props.keyword} onChange={this.props.onChange}/>
+          <input type ="submit" />  //props use state. get initial, onchange call function, reset the state,
+          //on submit to form, call search function
         </form>
       );
     }
 
   });
   var onClick = function(e){
-    // console.log("keyword:" keyword);
+    e.preventDefault();
+    console.log("Search:", e.target.value);
     search.setProps({keyword: e.target.value})
   }
 
-  var search = React.render(<SearchBox keyword="keyword" onChange={onClick} />, document.body);
+  var search = React.render(<SearchBox  onChange={onClick} />, document.body);
 });
 
